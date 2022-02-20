@@ -1,8 +1,21 @@
 import math
 
+def getMonthsSinceCycle(num):
+  leapYears = [3, 6, 8, 11, 14, 17, 19]
+  months = 0
+  for y in range(num):
+    if y+1 in leapYears:
+      months += 13
+    else:
+      months += 12
+  return months
+
  # Get the number of months since the Molad of "Bahard".
 def getMonthsSinceBaharad(year):
-  return round(((235 * (year - 1)) + 1) / 19)
+  year =- 1
+  months = ( year - (year % 19) ) * 235
+  months += getMonthsSinceCycle(year % 19)
+  return months
 
 def getMoladTishrei(year):
 
@@ -30,5 +43,5 @@ def getMoladTishrei(year):
   return f" Day: {round(dayMt)} \n Hours: {round(hoursMt)} \n Parts: {round(partsMt)}"
 
 # Example:
-print(getMoladTishrei(5770))
+print(getMoladTishrei(5782))
 
