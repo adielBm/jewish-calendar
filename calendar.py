@@ -1,26 +1,40 @@
 import math
 
+LEAP_YEARS = (3, 6, 8, 11, 14, 17, 19)
+
+
+def isLeapYear(year):
+    (cycles, re) = getCycles(year)
+    return re + 1 in LEAP_YEARS
+
+
+def getCycles(year):
+    year -= 1
+    (re, cycles) = math.modf(year / 19)
+    return (cycles, round(re * 19))
+
+
 def getMonthsSinceCycle(num):
-    leapYears = [3, 6, 8, 11, 14, 17, 19]
     months = 0
     for y in range(num):
-        if y+1 in leapYears:
-            months += 13
-        else:
-            months += 12
+        months += 12
+        if y+1 in LEAP_YEARS:
+            months += 1
     return months
 
 # Get the number of months since the Molad of "Bahard".
+
+
 def getMonthsSinceBaharad(year):
-    year -= 1
-    (re, cycles) = math.modf(year / 19)
-    return getMonthsSinceCycle(round(19 * re)) + (cycles * 235)
+    (cycles, re) = getCycles(year)
+    return getMonthsSinceCycle(re) + (cycles * 235)
+
 
 def getMoladTishrei(year):
 
     HOUR_AS_PARTS = 1080
     DAY_AS_PARTS = HOUR_AS_PARTS * 24
-    WEEK_AS_PARTS = DAY_AS_PARTS * 7 # 181440
+    WEEK_AS_PARTS = DAY_AS_PARTS * 7  # 181440
     MONTH_AS_PARTS = (DAY_AS_PARTS * 29) + (HOUR_AS_PARTS * 12) + 793
 
     # Remainder of MONTH after removal of the entire weeks. (Week Modulo)
@@ -31,7 +45,7 @@ def getMoladTishrei(year):
 
     # Molad Tishrei as parts.
     mtParts = BAHARAD + (getMonthsSinceBaharad(year) * REMNANT_MONTH)
-    
+
     # Molad Tishrei after Week Modulo:
     mtParts = mtParts % WEEK_AS_PARTS
 
@@ -43,12 +57,12 @@ def getMoladTishrei(year):
 
 
 # Examples:
-
+print(isLeapYear(5790))
 print(getMoladTishrei(5782))
 # Day: 3, Hours: 5, Parts: 497
 
-print(getMoladTishrei(5783))
+# print(getMoladTishrei(5783))
 # Day: 2, Hours: 3, Parts: 6
 
-print(getMoladTishrei(5784))
+# print(getMoladTishrei(5784))
 # Day: 6, Hours: 11, Parts: 882
