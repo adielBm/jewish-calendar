@@ -31,6 +31,7 @@ def getMoladTishrei(year):
 
     # Molad Tishrei as parts.
     mtParts = BAHARAD + (getMonthsSinceBaharad(year) * REMNANT_MONTH)
+    
     # Molad Tishrei after Week Modulo:
     mtParts = mtParts % WEEK_AS_PARTS
 
