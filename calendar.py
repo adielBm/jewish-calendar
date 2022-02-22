@@ -53,12 +53,56 @@ def getMoladTishrei(year):
     (re, hoursMt) = math.modf(re * 24)
     partsMt = re * 1080
 
-    return f" Day: {round(dayMt)} \n Hours: {round(hoursMt)} \n Parts: {round(partsMt)}"
+    return (round(dayMt), round(hoursMt), round(partsMt))
 
 
-# Examples:
-print(isLeapYear(5790))
-print(getMoladTishrei(5782))
+def getRh(year):
+    (dayMt, hoursMt, partsMt) = getMoladTishrei(year)
+
+    if dayMt == 3 and isLeapYear(year) == False:
+        if hoursMt >= 10 or (hoursMt == 9 and partsMt >= 204):
+            dayMt += 1
+    elif dayMt == 2 and isLeapYear(year-1) == True:
+        if hoursMt >= 16 or (hoursMt == 15 and partsMt >= 589):
+            dayMt += 1
+    elif hoursMt >= 18:
+        dayMt += 1
+
+    if dayMt == 1 or dayMt == 4 or dayMt == 6:
+        dayMt += 1
+
+    if dayMt == 7:
+        dayMt = 0
+
+    return dayMt
+
+
+def getHC(year):
+  diff = getRh(year+1) - getRh(year)
+
+  if diff < 0: diff += 7
+  diff = diff % 7
+
+  if isLeapYear(year):
+    if diff == 5:
+      return 'ח'
+    if diff == 6:
+      return 'כ'
+    if diff == 0:
+      return 'ש'
+  else:
+    if diff == 3:
+      return 'ח'
+    if diff == 4:
+      return 'כ'
+    if diff == 5:
+      return 'ש'
+
+
+
+  # Examples:
+print(getHC(5788))
+
 # Day: 3, Hours: 5, Parts: 497
 
 # print(getMoladTishrei(5783))
