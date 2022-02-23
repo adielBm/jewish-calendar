@@ -2,17 +2,14 @@ import math
 
 LEAP_YEARS = (3, 6, 8, 11, 14, 17, 19)
 
-
 def isLeapYear(year):
     (cycles, re) = getCycles(year)
     return re + 1 in LEAP_YEARS
-
 
 def getCycles(year):
     year -= 1
     (re, cycles) = math.modf(year / 19)
     return (cycles, round(re * 19))
-
 
 def getMonthsSinceCycle(num):
     months = 0
@@ -22,16 +19,11 @@ def getMonthsSinceCycle(num):
             months += 1
     return months
 
-# Get the number of months since the Molad of "Bahard".
-
-
 def getMonthsSinceBaharad(year):
     (cycles, re) = getCycles(year)
     return getMonthsSinceCycle(re) + (cycles * 235)
 
-
 def getMoladTishrei(year):
-
     HOUR_AS_PARTS = 1080
     DAY_AS_PARTS = HOUR_AS_PARTS * 24
     WEEK_AS_PARTS = DAY_AS_PARTS * 7  # 181440
@@ -55,7 +47,6 @@ def getMoladTishrei(year):
 
     return (round(dayMt), round(hoursMt), round(partsMt))
 
-
 def getRh(year):
     (dayMt, hoursMt, partsMt) = getMoladTishrei(year)
 
@@ -77,7 +68,7 @@ def getRh(year):
     return dayMt
 
 
-def getHC(year):
+def getYearType(year):
   diff = getRh(year+1) - getRh(year)
 
   if diff < 0: diff += 7
@@ -99,14 +90,33 @@ def getHC(year):
       return 'ש'
 
 
+def getYearLength(year):
+  len = 354
+  type = getYearType(year)
+  if type == 'ח': 
+    len -= 1
+  if type == 'ש': 
+    len += 1
+  if isLeapYear(year): 
+    len += 30
+  return len
 
-  # Examples:
-print(getHC(5788))
+print(getYearLength(5780)) # 355
+print(getMoladTishrei(5780)) # (1, 11, 905)
+print(getYearType(5780)) # ש 
+print(getRh(5780)) # 2
 
-# Day: 3, Hours: 5, Parts: 497
 
-# print(getMoladTishrei(5783))
-# Day: 2, Hours: 3, Parts: 6
+print(getYearLength(5782)) # 384
+print(getMoladTishrei(5782)) # (3, 5, 497)
+print(getYearType(5782)) # כ
+print(getRh(5782)) # 3
 
-# print(getMoladTishrei(5784))
-# Day: 6, Hours: 11, Parts: 882
+
+
+
+
+
+
+
+
