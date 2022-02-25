@@ -34,7 +34,6 @@ def getMoladTishrei(year):
 
     # Molad "Baharad": (2 days. 5 hours. 204 parts )
     BAHARAD = (DAY_AS_PARTS * 2) + (HOUR_AS_PARTS * 5) + 204  # 57444
-
     # Molad Tishrei as parts.
     mtParts = BAHARAD + (getMonthsSinceBaharad(year) * REMNANT_MONTH)
 
@@ -101,17 +100,13 @@ def getYearLength(year):
     len += 30
   return len
 
-print(getYearLength(5780)) # 355
-print(getMoladTishrei(5780)) # (1, 11, 905)
-print(getYearType(5780)) # ש 
-print(getRh(5780)) # 2
-
-
-print(getYearLength(5782)) # 384
-print(getMoladTishrei(5782)) # (3, 5, 497)
-print(getYearType(5782)) # כ
-print(getRh(5782)) # 3
-
+print(getYearLength(5782)) 
+print(getMoladTishrei(5782)) 
+print(getYearType(5782)) 
+print(getRh(5782)) 
+print(getCycles(5782)) 
+print(getMonthsSinceCycle(5782))
+print(getMonthsSinceBaharad(5782)) 
 
 
 
